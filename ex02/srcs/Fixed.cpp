@@ -6,7 +6,7 @@
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:42:04 by jmaia             #+#    #+#             */
-/*   Updated: 2022/05/23 15:30:11 by jmaia            ###   ########.fr       */
+/*   Updated: 2022/05/23 16:03:27 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ Fixed::Fixed(float const nbr)
 	decPart = nbr - (int) nbr;
 	fracPart = decPart * (1 << this->nFractionalBits);
 	this->value += fracPart;
-	delta1 = std::abs(this->toFloat() - nbr);
+	delta1 = this->toFloat() - nbr;
+	delta1 *= delta1 < 0 ? -1 : 1;
 	this->value++;
 	delta2 = std::abs(this->toFloat() - nbr);
+	delta2 *= delta2 < 0 ? -1 : 1;
 	if (delta1 < delta2)
 		this->value--;
 }
