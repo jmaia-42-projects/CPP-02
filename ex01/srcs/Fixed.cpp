@@ -6,12 +6,13 @@
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 09:42:04 by jmaia             #+#    #+#             */
-/*   Updated: 2022/05/23 11:11:31 by jmaia            ###   ########.fr       */
+/*   Updated: 2022/05/23 15:32:10 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
+#include <cmath>
 #include <iostream>
 
 Fixed::Fixed(void)
@@ -35,11 +36,18 @@ Fixed::Fixed(float const nbr)
 {
 	float	decPart;
 	int		fracPart;
+	double	delta1;
+	double	delta2;
 
 	this->value = ((int) nbr) << this->nFractionalBits;
 	decPart = nbr - (int) nbr;
 	fracPart = decPart * (1 << this->nFractionalBits);
-	this->value += fracPart + 1;
+	this->value += fracPart;
+	delta1 = std::abs(this->toFloat() - nbr);
+	this->value++;
+	delta2 = std::abs(this->toFloat() - nbr);
+	if (delta1 < delta2)
+		this->value--;
 }
 
 Fixed::~Fixed(void)
